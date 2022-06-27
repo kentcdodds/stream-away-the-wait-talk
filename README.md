@@ -1,21 +1,17 @@
-<div>
 <h1 align="center"><a href="https://www.react-next.com/events/stream-away-the-wait-talk">🌊 Stream Away the Wait</a></h1>
-<p>
+
 When implementing the design of a user interface, we often finish before
 remembering that not everyone's running the app's services locally on their
-device. There's going to be network latency, long running database queries,
-and large datasets that can slow down the experience. We can and should do
-everything we can to speed things up, but not all of this is within our
-control. This means we need to start thinking about pending states. But
-pending UI is terrible.
-</p>
-<p>
-In this talk, Kent will walk us through building a pending experience that
-is quite delightful. Ultimately taking advantage of React 18's new streaming
-APIs and a soon-to-be-released API in Remix to give a top-notch user and
-developer experience. Prepare to have your mind blown.
-</p>
-</div>
+device. There's going to be network latency, long running database queries, and
+large datasets that can slow down the experience. We can and should do
+everything we can to speed things up, but not all of this is within our control.
+This means we need to start thinking about pending states. But pending UI is
+terrible.
+
+In this talk, Kent will walk us through building a pending experience that is
+quite delightful. Ultimately taking advantage of React 18's new streaming APIs
+and a soon-to-be-released API in Remix to give a top-notch user and developer
+experience. Prepare to have your mind blown.
 
 <hr />
 
