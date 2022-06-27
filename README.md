@@ -1,5 +1,5 @@
 <div>
-  <h1 align="center"><a href="https://www.react-next.com/events/stream-away-the-wait">🌊 Stream Away the Wait</a></h1>
+  <h1 align="center"><a href="https://www.react-next.com/events/stream-away-the-wait-talk">🌊 Stream Away the Wait</a></h1>
   <p>
     When implementing the design of a user interface, we often finish before
     remembering that not everyone's running the app's services locally on their
@@ -57,8 +57,8 @@ variable and how to fix it here for [windows][win-path] or
 Follow these steps to get this set up:
 
 ```sh
-git clone https://github.com/kentcdodds/stream-away-the-wait.git
-cd stream-away-the-wait
+git clone https://github.com/kentcdodds/stream-away-the-wait-talk.git
+cd stream-away-the-wait-talk
 npm run setup
 ```
 
@@ -123,13 +123,13 @@ quite working as you expect.
 [npm]: https://www.npmjs.com/
 [node]: https://nodejs.org
 [git]: https://git-scm.com/
-[build-badge]: https://img.shields.io/github/workflow/status/kentcdodds/stream-away-the-wait/%E2%9C%85%20Validate/main?logo=github&style=flat-square
-[build]: https://github.com/kentcdodds/stream-away-the-wait/actions?query=workflow%3Avalidate
+[build-badge]: https://img.shields.io/github/workflow/status/kentcdodds/stream-away-the-wait-talk/%E2%9C%85%20Validate/main?logo=github&style=flat-square
+[build]: https://github.com/kentcdodds/stream-away-the-wait-talk/actions?query=workflow%3Avalidate
 [license-badge]: https://img.shields.io/badge/license-GPL%203.0%20License-blue.svg?style=flat-square
-[license]: https://github.com/kentcdodds/stream-away-the-wait/blob/main/LICENSE
+[license]: https://github.com/kentcdodds/stream-away-the-wait-talk/blob/main/LICENSE
 [coc-badge]: https://img.shields.io/badge/code%20of-conduct-ff69b4.svg?style=flat-square
 [coc]: https://kentcdodds.com/conduct
 [win-path]: https://www.howtogeek.com/118594/how-to-edit-your-system-path-for-easy-command-line-access/
 [mac-path]: http://stackoverflow.com/a/24322978/971592
-[issue]: https://github.com/kentcdodds/stream-away-the-wait/issues/new
+[issue]: https://github.com/kentcdodds/stream-away-the-wait-talk/issues/new
 <!-- prettier-ignore-end -->
