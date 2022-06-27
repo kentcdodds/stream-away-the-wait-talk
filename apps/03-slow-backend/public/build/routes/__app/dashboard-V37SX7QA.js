@@ -1,1 +1,0 @@
-import{a as n}from"/build/_shared/chunk-47ZWW2WL.js";import{c as t,e as o,f as r}from"/build/_shared/chunk-UIDRLFYU.js";r();r();var a=t(n());function e(){return o.createElement("div",null,"Look at all these graphs!")}export{e as default};

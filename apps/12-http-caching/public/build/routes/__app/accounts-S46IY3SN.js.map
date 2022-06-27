@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["browser-route-module:/Users/kentcdodds/Desktop/stream-away-the-wait-talk/apps/12-http-caching/app/routes/__app/accounts.tsx?browser", "../../../../app/routes/__app/accounts.tsx"],
-  "sourcesContent": ["export { default } from \"/Users/kentcdodds/Desktop/stream-away-the-wait-talk/apps/12-http-caching/app/routes/__app/accounts.tsx\";", "import type { LoaderFunction } from \"@remix-run/server-runtime\";\nimport { json } from \"@remix-run/server-runtime\";\nimport { requireUser } from \"~/session.server\";\n\nexport const loader: LoaderFunction = async ({ request }) => {\n  await requireUser(request);\n  return json({});\n};\n\nexport default function AccountsRoute() {\n  return <div>Hope you have tons of accounts I guess.</div>;\n}\n"],
-  "mappings": ";;;;;;;;;;AAAA;;;ACAA;AAEA,qBAA4B;AAOb,yBAAyB;AACtC,SAAO,oCAAC,OAAD,MAAK;AAAA;",
-  "names": []
-}

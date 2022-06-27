@@ -1,7 +1,0 @@
-{
-  "version": 3,
-  "sources": ["browser-route-module:/Users/kentcdodds/Desktop/stream-away-the-wait-talk/apps/09-client-side-fetch/app/routes/__app/sales/customers/index.tsx?browser", "../../../../../../app/routes/__app/sales/customers/index.tsx"],
-  "sourcesContent": ["export { default } from \"/Users/kentcdodds/Desktop/stream-away-the-wait-talk/apps/09-client-side-fetch/app/routes/__app/sales/customers/index.tsx\";", "import type { LoaderFunction } from \"@remix-run/node\";\nimport { json, redirect } from \"@remix-run/node\";\nimport { getFirstCustomer } from \"~/models/customer.server\";\nimport { requireUser } from \"~/session.server\";\n\nexport const loader: LoaderFunction = async ({ request }) => {\n  await requireUser(request);\n  const firstCustomer = await getFirstCustomer();\n  if (!firstCustomer) {\n    return json({});\n  }\n  return redirect(`/sales/customers/${firstCustomer.id}`);\n};\n\nexport default function InvoiceIndex() {\n  return <div className=\"p-10\">You don't have any customers \uD83D\uDE2D</div>;\n}\n"],
-  "mappings": ";;;;;;;;;;;;;AAAA;;;ACAA;AAEA,sBAAiC;AACjC,qBAA4B;AAWb,wBAAwB;AACrC,SAAO,oCAAC,OAAD;AAAA,IAAK,WAAU;AAAA,KAAO;AAAA;",
-  "names": []
-}

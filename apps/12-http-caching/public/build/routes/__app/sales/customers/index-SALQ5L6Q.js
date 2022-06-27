@@ -1,1 +1,0 @@
-import{a as n}from"/build/_shared/chunk-VTL4VDFE.js";import{a as i}from"/build/_shared/chunk-47ZWW2WL.js";import{c as e,e as o,f as r}from"/build/_shared/chunk-UIDRLFYU.js";r();r();var s=e(n()),m=e(i());function t(){return o.createElement("div",{className:"p-10"},"You don't have any customers \u{1F62D}")}export{t as default};
