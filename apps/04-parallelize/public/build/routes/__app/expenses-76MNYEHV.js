@@ -1,0 +1,1 @@
+import{a as n}from"/build/_shared/chunk-47ZWW2WL.js";import{c as t,e,f as r}from"/build/_shared/chunk-UIDRLFYU.js";r();r();var i=t(n());function o(){return e.createElement("div",null,"Hope you don't have a lot of these...")}export{o as default};

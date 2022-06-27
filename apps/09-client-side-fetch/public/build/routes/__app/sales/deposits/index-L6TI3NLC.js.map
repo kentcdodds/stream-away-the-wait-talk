@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["browser-route-module:/Users/kentcdodds/Desktop/stream-away-the-wait-talk/apps/09-client-side-fetch/app/routes/__app/sales/deposits/index.tsx?browser", "../../../../../../app/routes/__app/sales/deposits/index.tsx"],
+  "sourcesContent": ["export { default } from \"/Users/kentcdodds/Desktop/stream-away-the-wait-talk/apps/09-client-side-fetch/app/routes/__app/sales/deposits/index.tsx\";", "export default function DepositsIndexRoute() {\n  return null;\n}\n"],
+  "mappings": ";;;;;AAAA;;;ACAA;AAAe,8BAA8B;AAC3C,SAAO;AAAA;",
+  "names": []
+}

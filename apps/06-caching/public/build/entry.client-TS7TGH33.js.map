@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["../../../../node_modules/react-dom/client.js", "../../app/entry.client.tsx"],
+  "sourcesContent": ["'use strict';\n\nvar m = require('react-dom');\nif (process.env.NODE_ENV === 'production') {\n  exports.createRoot = m.createRoot;\n  exports.hydrateRoot = m.hydrateRoot;\n} else {\n  var i = m.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;\n  exports.createRoot = function(c, o) {\n    i.usingClientEntryPoint = true;\n    try {\n      return m.createRoot(c, o);\n    } finally {\n      i.usingClientEntryPoint = false;\n    }\n  };\n  exports.hydrateRoot = function(c, h, o) {\n    i.usingClientEntryPoint = true;\n    try {\n      return m.hydrateRoot(c, h, o);\n    } finally {\n      i.usingClientEntryPoint = false;\n    }\n  };\n}\n", "import { RemixBrowser } from \"@remix-run/react\";\nimport { hydrateRoot } from \"react-dom/client\";\n\nhydrateRoot(document, <RemixBrowser />);\n"],
+  "mappings": ";;;;;;;;;;;;;;AAAA;AAAA;AAAA;AAAA;AAEA,QAAI,IAAI;AACR,QAAI,OAAuC;AACzC,cAAQ,aAAa,EAAE;AACvB,cAAQ,cAAc,EAAE;AAAA,WACnB;AACD,UAAI,EAAE;AACV,cAAQ,aAAa,SAAS,GAAG,GAAG;AAClC,UAAE,wBAAwB;AAC1B,YAAI;AACF,iBAAO,EAAE,WAAW,GAAG;AAAA,kBACvB;AACA,YAAE,wBAAwB;AAAA;AAAA;AAG9B,cAAQ,cAAc,SAAS,GAAG,GAAG,GAAG;AACtC,UAAE,wBAAwB;AAC1B,YAAI;AACF,iBAAO,EAAE,YAAY,GAAG,GAAG;AAAA,kBAC3B;AACA,YAAE,wBAAwB;AAAA;AAAA;AAAA;AAd1B;AAAA;AAAA;;;ACPN;AACA,oBAA4B;AAE5B,+BAAY,UAAU,oCAAC,cAAD;",
+  "names": []
+}

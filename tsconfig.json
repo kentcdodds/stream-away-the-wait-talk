@@ -1,0 +1,19 @@
+{
+  "files": [],
+  "exclude": ["node_modules"],
+  "references": [
+    { "path": "apps/00-playground" },
+    { "path": "apps/01-start" },
+    { "path": "apps/02-ui-finished" },
+    { "path": "apps/03-slow-backend" },
+    { "path": "apps/04-parallelize" },
+    { "path": "apps/05-prefetching" },
+    { "path": "apps/06-caching" },
+    { "path": "apps/07-spinner" },
+    { "path": "apps/08-skeleton" },
+    { "path": "apps/09-client-side-fetch" },
+    { "path": "apps/10-deferred" },
+    { "path": "apps/11-levers" },
+    { "path": "apps/12-http-caching" }
+  ]
+}

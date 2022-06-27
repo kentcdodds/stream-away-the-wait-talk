@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["browser-route-module:/Users/kentcdodds/Desktop/stream-away-the-wait-talk/apps/09-client-side-fetch/app/routes/__app/index.tsx?browser", "../../../../app/routes/__app/index.tsx"],
+  "sourcesContent": ["export { default } from \"/Users/kentcdodds/Desktop/stream-away-the-wait-talk/apps/09-client-side-fetch/app/routes/__app/index.tsx\";", "import { Link } from \"@remix-run/react\";\nimport type { LoaderFunction } from \"@remix-run/node\";\nimport { redirect } from \"@remix-run/node\";\nimport { requireUser } from \"~/session.server\";\n\nexport const loader: LoaderFunction = async ({ request }) => {\n  await requireUser(request);\n  return redirect(\"/sales/invoices\");\n};\n\nexport default function IndexRoute() {\n  return (\n    <div>\n      Go to the{\" \"}\n      <Link className=\"text-blue-600 underline\" to=\"sales\">\n        sales\n      </Link>{\" \"}\n      page...\n    </div>\n  );\n}\n"],
+  "mappings": ";;;;;;;;;;;;;AAAA;;;ACAA;AAGA,qBAA4B;AAOb,sBAAsB;AACnC,SACE,oCAAC,OAAD,MAAK,aACO,KACV,oCAAC,MAAD;AAAA,IAAM,WAAU;AAAA,IAA0B,IAAG;AAAA,KAAQ,UAE7C,KAAI;AAAA;",
+  "names": []
+}

@@ -1,0 +1,7 @@
+{
+  "version": 3,
+  "sources": ["browser-route-module:/Users/kentcdodds/Desktop/stream-away-the-wait-talk/apps/09-client-side-fetch/app/routes/__app/expenses.tsx?browser", "../../../../app/routes/__app/expenses.tsx"],
+  "sourcesContent": ["export { default } from \"/Users/kentcdodds/Desktop/stream-away-the-wait-talk/apps/09-client-side-fetch/app/routes/__app/expenses.tsx\";", "import type { LoaderFunction } from \"@remix-run/server-runtime\";\nimport { json } from \"@remix-run/server-runtime\";\nimport { requireUser } from \"~/session.server\";\n\nexport const loader: LoaderFunction = async ({ request }) => {\n  await requireUser(request);\n  return json({});\n};\n\nexport default function ExpensesRoute() {\n  return <div>Hope you don't have a lot of these...</div>;\n}\n"],
+  "mappings": ";;;;;;;;;;AAAA;;;ACAA;AAEA,qBAA4B;AAOb,yBAAyB;AACtC,SAAO,oCAAC,OAAD,MAAK;AAAA;",
+  "names": []
+}

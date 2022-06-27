@@ -1,0 +1,1 @@
+import{a as n}from"/build/_shared/chunk-47ZWW2WL.js";import{c as t,e as r,f as o}from"/build/_shared/chunk-UIDRLFYU.js";o();o();var u=t(n());function e(){return r.createElement("div",null,"Hope you have tons of accounts I guess.")}export{e as default};

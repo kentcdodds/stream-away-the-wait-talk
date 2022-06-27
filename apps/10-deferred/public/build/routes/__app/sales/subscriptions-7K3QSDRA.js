@@ -1,0 +1,1 @@
+import{a as n}from"/build/_shared/chunk-47ZWW2WL.js";import{c as t,e as o,f as r}from"/build/_shared/chunk-UIDRLFYU.js";r();r();var i=t(n());function e(){return o.createElement("div",null,"Woo. Subs. Money.")}export{e as default};
