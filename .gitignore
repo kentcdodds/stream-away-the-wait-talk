@@ -1,5 +1,7 @@
 node_modules/
-.cache/
-00-playground/
-prisma/data.db
-styles/tailwind.css
+apps/00-playground/
+apps/*/.cache/
+apps/*/build/
+apps/*/public/build
+apps/*/app/styles/tailwind.css
+apps/*/prisma/data.db
