@@ -2,7 +2,6 @@
   "files": [],
   "exclude": ["node_modules"],
   "references": [
-    { "path": "apps/00-playground" },
     { "path": "apps/01-start" },
     { "path": "apps/02-ui-finished" },
     { "path": "apps/03-slow-backend" },
