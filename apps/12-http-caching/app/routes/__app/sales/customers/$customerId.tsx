@@ -47,7 +47,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     },
     {
       headers: {
-        "Cache-Control": "max-age=10 stale-while-revalidate=5",
+        "Cache-Control": "max-age=10, stale-while-revalidate=5",
       },
     }
   );
