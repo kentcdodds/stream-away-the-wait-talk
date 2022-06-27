@@ -112,5 +112,5 @@ const invoiceDetailsCache =
 
 export async function getCustomerInvoiceDetails(customerId: string) {
   const invoiceDetails = await invoiceDetailsCache.fetch(customerId);
-  return invoiceDetails;
+  return invoiceDetails ?? [];
 }
