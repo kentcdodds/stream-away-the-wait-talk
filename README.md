@@ -99,10 +99,7 @@ Then to run the app, run:
 node play
 ```
 
-### Instructions
-
-For each exercise, follow the instructions in the `README.md` file of the
-exercise directory to learn what the objectives are.
+### Diff
 
 You can us the `diff.js` script to be shown the differences between what's in
 any of the apps. For example:
