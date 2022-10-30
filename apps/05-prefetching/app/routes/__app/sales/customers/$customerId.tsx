@@ -1,6 +1,7 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { Link, useCatch, useLoaderData, useParams } from "@remix-run/react";
+import invariant from "tiny-invariant";
 import { ErrorFallback } from "~/components";
 import {
   getCustomerInfo,
@@ -9,33 +10,24 @@ import {
 import { requireUser } from "~/session.server";
 import { currencyFormatter } from "~/utils";
 
-type LoaderData = {
-  customerInfo: Awaited<ReturnType<typeof getCustomerInfo>>;
-  invoiceDetails: NonNullable<
-    Awaited<ReturnType<typeof getCustomerInvoiceDetails>>
-  >;
-};
-
-export const loader: LoaderFunction = async ({ request, params }) => {
+export async function loader({ request, params }: LoaderArgs) {
   await requireUser(request);
   const { customerId } = params;
-  if (typeof customerId !== "string") {
-    throw new Error("This should be unpossible.");
-  }
+  invariant(customerId, "customerId param is required");
   const [customerInfo, invoiceDetails] = await Promise.all([
     getCustomerInfo(customerId),
     getCustomerInvoiceDetails(customerId),
   ]);
-  return json<LoaderData>({
+  return json({
     customerInfo,
     invoiceDetails,
   });
-};
+}
 
 const lineItemClassName = "border-t border-gray-100 text-[14px] h-[56px]";
 
 export default function CustomerRoute() {
-  const data = useLoaderData() as LoaderData;
+  const data = useLoaderData<typeof loader>();
 
   return (
     <div className="relative p-10">

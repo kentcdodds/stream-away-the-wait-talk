@@ -1,12 +1,14 @@
-import type { LoaderFunction, Deferrable } from "@remix-run/node";
-import { deferred } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
+import { defer } from "@remix-run/node";
 import {
-  Deferred,
+  Await,
   Link,
   useCatch,
   useLoaderData,
   useParams,
 } from "@remix-run/react";
+import { Suspense } from "react";
+import invariant from "tiny-invariant";
 import { ErrorFallback, InvoiceDetailsFallback } from "~/components";
 import {
   getCustomerInfo,
@@ -16,19 +18,10 @@ import {
 import { requireUser } from "~/session.server";
 import { currencyFormatter } from "~/utils";
 
-type LoaderData = {
-  customerInfo: Awaited<ReturnType<typeof getCustomerInfo>>;
-  invoiceDetails: Deferrable<
-    NonNullable<Awaited<ReturnType<typeof getCustomerInvoiceDetails>>>
-  >;
-};
-
-export const loader: LoaderFunction = async ({ request, params }) => {
+export async function loader({ request, params }: LoaderArgs) {
   const user = await requireUser(request);
   const { customerId } = params;
-  if (typeof customerId !== "string") {
-    throw new Error("This should be unpossible.");
-  }
+  invariant(customerId, "customerId param is required");
   const customerInfo = await getCustomerInfo(customerId);
   if (!customerInfo) {
     throw new Response("not found", { status: 404 });
@@ -38,7 +31,7 @@ export const loader: LoaderFunction = async ({ request, params }) => {
     customerId,
     userId: user.id,
   });
-  return deferred<LoaderData>(
+  return defer(
     {
       customerInfo,
       invoiceDetails: deferInvoices
@@ -51,12 +44,12 @@ export const loader: LoaderFunction = async ({ request, params }) => {
       },
     }
   );
-};
+}
 
 const lineItemClassName = "border-t border-gray-100 text-[14px] h-[56px]";
 
 export default function CustomerRoute() {
-  const data = useLoaderData() as LoaderData;
+  const data = useLoaderData<typeof loader>();
 
   return (
     <div className="relative p-10">
@@ -69,50 +62,52 @@ export default function CustomerRoute() {
       <div className="h-4" />
       <div className="text-m-h3 font-bold leading-8">Invoices</div>
       <div className="h-4" />
-      <Deferred
-        value={data.invoiceDetails}
-        fallback={<InvoiceDetailsFallback />}
-        errorElement={
-          <div className="relative h-full">
-            <ErrorFallback />
-          </div>
-        }
-      >
-        {(invoiceDetails) => (
-          <table className="w-full">
-            <tbody>
-              {invoiceDetails.map((details) => (
-                <tr key={details.id} className={lineItemClassName}>
-                  <td>
-                    <Link
-                      className="text-blue-600 underline"
-                      to={`../../invoices/${details.id}`}
+      <Suspense fallback={<InvoiceDetailsFallback />}>
+        <Await
+          resolve={data.invoiceDetails}
+          errorElement={
+            <div className="relative h-full">
+              <ErrorFallback />
+            </div>
+          }
+        >
+          {(invoiceDetails) => (
+            <table className="w-full">
+              <tbody>
+                {/* @ts-expect-error This needs to be fixed in Remix */}
+                {invoiceDetails.map((details) => (
+                  <tr key={details.id} className={lineItemClassName}>
+                    <td>
+                      <Link
+                        className="text-blue-600 underline"
+                        to={`../../invoices/${details.id}`}
+                      >
+                        {details.number}
+                      </Link>
+                    </td>
+                    <td
+                      className={
+                        "text-center uppercase" +
+                        " " +
+                        (details.dueStatus === "paid"
+                          ? "text-green-brand"
+                          : details.dueStatus === "overdue"
+                          ? "text-red-brand"
+                          : "")
+                      }
                     >
-                      {details.number}
-                    </Link>
-                  </td>
-                  <td
-                    className={
-                      "text-center uppercase" +
-                      " " +
-                      (details.dueStatus === "paid"
-                        ? "text-green-brand"
-                        : details.dueStatus === "overdue"
-                        ? "text-red-brand"
-                        : "")
-                    }
-                  >
-                    {details.dueStatusDisplay}
-                  </td>
-                  <td className="text-right">
-                    {currencyFormatter.format(details.totalAmount)}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        )}
-      </Deferred>
+                      {details.dueStatusDisplay}
+                    </td>
+                    <td className="text-right">
+                      {currencyFormatter.format(details.totalAmount)}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          )}
+        </Await>
+      </Suspense>
     </div>
   );
 }

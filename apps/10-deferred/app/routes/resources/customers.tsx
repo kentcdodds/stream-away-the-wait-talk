@@ -1,35 +1,30 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useFetcher } from "@remix-run/react";
 import clsx from "clsx";
 import { useCombobox } from "downshift";
 import { useId, useState } from "react";
+import { useSpinDelay } from "spin-delay";
 import invariant from "tiny-invariant";
-import { LabelText } from "~/components";
+import { LabelText, SpinnerIcon } from "~/components";
 import { searchCustomers } from "~/models/customer.server";
 import { requireUser } from "~/session.server";
 
-type CustomerSearchResult = {
-  customers: Awaited<ReturnType<typeof searchCustomers>>;
-};
-
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: LoaderArgs) {
   await requireUser(request);
   const url = new URL(request.url);
   const query = url.searchParams.get("query");
   invariant(typeof query === "string", "query is required");
-  return json<CustomerSearchResult>({
+  return json({
     customers: await searchCustomers(query),
   });
-};
-
-type Customer = CustomerSearchResult["customers"][number];
+}
 
 export function CustomerCombobox({ error }: { error?: string | null }) {
-  const customerFetcher = useFetcher();
+  const customerFetcher = useFetcher<SerializeFrom<typeof loader>>();
   const id = useId();
-  const customers =
-    (customerFetcher.data as CustomerSearchResult | null)?.customers ?? [];
+  const customers = customerFetcher.data?.customers ?? [];
+  type Customer = typeof customers[number];
   const [selectedCustomer, setSelectedCustomer] = useState<
     Customer | null | undefined
   >(null);
@@ -42,15 +37,18 @@ export function CustomerCombobox({ error }: { error?: string | null }) {
     items: customers,
     itemToString: (item) => (item ? item.name : ""),
     onInputValueChange: (changes) => {
-      if (!changes.inputValue) return;
-
       customerFetcher.submit(
-        { query: changes.inputValue },
+        { query: changes.inputValue ?? "" },
         { method: "get", action: "/resources/customers" }
       );
     },
   });
 
+  const busy = customerFetcher.state !== "idle";
+  const showSpinner = useSpinDelay(busy, {
+    delay: 150,
+    minDuration: 300,
+  });
   const displayMenu = cb.isOpen && customers.length > 0;
 
   return (
@@ -70,7 +68,7 @@ export function CustomerCombobox({ error }: { error?: string | null }) {
           </em>
         ) : null}
       </div>
-      <div {...cb.getComboboxProps()}>
+      <div className="relative">
         <input
           {...cb.getInputProps({
             className: clsx("text-lg w-full border border-gray-500 px-2 py-1", {
@@ -81,6 +79,13 @@ export function CustomerCombobox({ error }: { error?: string | null }) {
             "aria-errormessage": error ? "customer-error" : undefined,
           })}
         />
+        <div
+          className={`absolute right-[5px] top-[5px] animate-spin transition-opacity ${
+            showSpinner ? "opacity-100" : "opacity-0"
+          }`}
+        >
+          <SpinnerIcon />
+        </div>
       </div>
       <ul
         {...cb.getMenuProps({
@@ -90,7 +95,7 @@ export function CustomerCombobox({ error }: { error?: string | null }) {
           ),
         })}
       >
-        {cb.isOpen
+        {displayMenu
           ? customers.map((customer, index) => (
               <li
                 className={clsx("cursor-pointer py-1 px-2", {

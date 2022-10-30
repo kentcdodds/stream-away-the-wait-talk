@@ -4,26 +4,22 @@ import {
   useLoaderData,
   useTransition,
 } from "@remix-run/react";
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import { useSpinDelay } from "spin-delay";
 import { CustomerSkeleton, FilePlusIcon } from "~/components";
 import { requireUser } from "~/session.server";
 import { getCustomerListItems } from "~/models/customer.server";
 
-type LoaderData = {
-  customers: Awaited<ReturnType<typeof getCustomerListItems>>;
-};
-
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: LoaderArgs) {
   await requireUser(request);
-  return json<LoaderData>({
+  return json({
     customers: await getCustomerListItems(),
   });
-};
+}
 
 export default function Customers() {
-  const { customers } = useLoaderData() as LoaderData;
+  const { customers } = useLoaderData<typeof loader>();
   const transition = useTransition();
 
   let loadingCustomer: typeof customers[number] | undefined;

@@ -1,30 +1,16 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderArgs } from "@remix-run/node";
 import { Link, useCatch, useParams } from "@remix-run/react";
+import invariant from "tiny-invariant";
 import { ErrorFallback } from "~/components";
-import type {
-  getCustomerInfo,
-  getCustomerInvoiceDetails,
-} from "~/models/customer.server";
 import { requireUser } from "~/session.server";
 import { currencyFormatter } from "~/utils";
 
-// TODO: use this
-// eslint-disable-next-line @typescript-eslint/no-unused-vars
-type LoaderData = {
-  customerInfo: Awaited<ReturnType<typeof getCustomerInfo>>;
-  invoiceDetails: NonNullable<
-    Awaited<ReturnType<typeof getCustomerInvoiceDetails>>
-  >;
-};
-
-export const loader: LoaderFunction = async ({ request, params }) => {
+export async function loader({ request, params }: LoaderArgs) {
   await requireUser(request);
   const { customerId } = params;
-  if (typeof customerId !== "string") {
-    throw new Error("This should be unpossible.");
-  }
+  invariant(customerId, "customerId param is required");
   return new Response("todo");
-};
+}
 
 const lineItemClassName = "border-t border-gray-100 text-[14px] h-[56px]";
 

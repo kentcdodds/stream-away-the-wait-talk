@@ -1,4 +1,4 @@
-import type { LoaderFunction } from "@remix-run/node";
+import type { LoaderArgs, SerializeFrom } from "@remix-run/node";
 import { json } from "@remix-run/node";
 import {
   Link,
@@ -8,6 +8,7 @@ import {
   useParams,
 } from "@remix-run/react";
 import { useEffect } from "react";
+import invariant from "tiny-invariant";
 import { ErrorFallback, InvoiceDetailsFallback } from "~/components";
 import {
   getCustomerInfo,
@@ -16,35 +17,36 @@ import {
 import { requireUser } from "~/session.server";
 import { currencyFormatter } from "~/utils";
 
-type LoaderData = {
-  customerInfo: Awaited<ReturnType<typeof getCustomerInfo>>;
-};
-type InvoiceDetails = NonNullable<
-  Awaited<ReturnType<typeof getCustomerInvoiceDetails>>
->;
+async function loadCustomerInvoiceDetails(customerId: string) {
+  return json({
+    invoiceDetails: await getCustomerInvoiceDetails(customerId),
+  });
+}
 
-export const loader: LoaderFunction = async ({ request, params }) => {
-  await requireUser(request);
-  const { customerId } = params;
-  if (typeof customerId !== "string") {
-    throw new Error("This should be unpossible.");
-  }
-  if (new URL(request.url).searchParams.get("invoiceDetails")) {
-    return json({
-      invoiceDetails: await getCustomerInvoiceDetails(customerId),
-    });
-  }
-  return json<LoaderData>({
+async function loadCustomerInfo(customerId: string) {
+  return json({
     customerInfo: await getCustomerInfo(customerId),
   });
-};
+}
+
+export async function loader({ request, params }: LoaderArgs) {
+  await requireUser(request);
+  const { customerId } = params;
+  invariant(customerId, "customerId param is required");
+  if (new URL(request.url).searchParams.get("invoiceDetails")) {
+    return loadCustomerInvoiceDetails(customerId);
+  } else {
+    return loadCustomerInfo(customerId);
+  }
+}
 
 const lineItemClassName = "border-t border-gray-100 text-[14px] h-[56px]";
 
 export default function CustomerRoute() {
-  const data = useLoaderData() as LoaderData;
+  const data = useLoaderData<typeof loadCustomerInfo>();
   const params = useParams();
-  const { load: loadInvoiceDetails, ...invoiceDetailsFetcher } = useFetcher();
+  const { load: loadInvoiceDetails, ...invoiceDetailsFetcher } =
+    useFetcher<SerializeFrom<typeof loadCustomerInvoiceDetails>>();
 
   useEffect(() => {
     loadInvoiceDetails(
@@ -66,36 +68,34 @@ export default function CustomerRoute() {
       {invoiceDetailsFetcher.state === "idle" && invoiceDetailsFetcher.data ? (
         <table className="w-full">
           <tbody>
-            {(invoiceDetailsFetcher.data.invoiceDetails as InvoiceDetails).map(
-              (details) => (
-                <tr key={details.id} className={lineItemClassName}>
-                  <td>
-                    <Link
-                      className="text-blue-600 underline"
-                      to={`../../invoices/${details.id}`}
-                    >
-                      {details.number}
-                    </Link>
-                  </td>
-                  <td
-                    className={
-                      "text-center uppercase" +
-                      " " +
-                      (details.dueStatus === "paid"
-                        ? "text-green-brand"
-                        : details.dueStatus === "overdue"
-                        ? "text-red-brand"
-                        : "")
-                    }
+            {invoiceDetailsFetcher.data.invoiceDetails.map((details) => (
+              <tr key={details.id} className={lineItemClassName}>
+                <td>
+                  <Link
+                    className="text-blue-600 underline"
+                    to={`../../invoices/${details.id}`}
                   >
-                    {details.dueStatusDisplay}
-                  </td>
-                  <td className="text-right">
-                    {currencyFormatter.format(details.totalAmount)}
-                  </td>
-                </tr>
-              )
-            )}
+                    {details.number}
+                  </Link>
+                </td>
+                <td
+                  className={
+                    "text-center uppercase" +
+                    " " +
+                    (details.dueStatus === "paid"
+                      ? "text-green-brand"
+                      : details.dueStatus === "overdue"
+                      ? "text-red-brand"
+                      : "")
+                  }
+                >
+                  {details.dueStatusDisplay}
+                </td>
+                <td className="text-right">
+                  {currencyFormatter.format(details.totalAmount)}
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       ) : (

@@ -1,50 +1,17 @@
 import { Form } from "@remix-run/react";
-import type { LoaderFunction } from "@remix-run/server-runtime";
+import type { LoaderArgs } from "@remix-run/server-runtime";
 import { json } from "@remix-run/server-runtime";
 import { inputClasses, submitButtonClasses } from "~/components";
 import { requireUser } from "~/session.server";
 
-// TODO:
-// type LoaderData = {
-//   invoiceReport: {
-//     count: number;
-//     paidAmount: number;
-//     dueAmount: number;
-//     overdueAmount: number;
-//   };
-//   customerReport: {
-//     count: number;
-//     mostInvoiced: {
-//       id: string;
-//       name: string;
-//       count: number;
-//     };
-//     leastInvoiced: {
-//       id: string;
-//       name: string;
-//       count: number;
-//     };
-//     highestInvoiced: {
-//       id: string;
-//       name: string;
-//       amount: number;
-//     };
-//     lowestInvoiced: {
-//       id: string;
-//       name: string;
-//       amount: number;
-//     };
-//   };
-// };
-
-export const loader: LoaderFunction = async ({ request }) => {
+export async function loader({ request }: LoaderArgs) {
   await requireUser(request);
   // TODO: make this thing work
   // const searchParams = new URL(request.url).searchParams;
   // const startDate = parseDate(searchParams.get("startDate") || "1000-01-01");
   // const endDate = parseDate(searchParams.get("endDate") || "1000-01-01");
   return json({});
-};
+}
 
 export default function ReportsRoute() {
   return (

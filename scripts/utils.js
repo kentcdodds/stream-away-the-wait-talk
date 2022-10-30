@@ -1,9 +1,9 @@
-const fsExtra = require("fs-extra");
+const fs = require("fs");
 const cp = require("child_process");
 const path = require("path");
 
 function getAppsDirs() {
-  return fsExtra
+  return fs
     .readdirSync("./apps")
     .filter((dir) => /\d+-/.test(dir))
     .map((dir) => `./apps/${dir}`);
@@ -31,7 +31,7 @@ function resolvePath(p) {
     );
   });
 
-  if (!appDir || !fsExtra.existsSync(appDir)) {
+  if (!appDir || !fs.existsSync(appDir)) {
     const err = new Error(`${appDir} does not exist`);
     err.stack = "";
     throw err;
